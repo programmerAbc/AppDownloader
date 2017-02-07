@@ -10,10 +10,10 @@ import java.util.ArrayList;
  * Created by usera on 2017/1/22.
  */
 
-public class CatagoryViewPagerAdapter extends FragmentStatePagerAdapter {
+public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
     ArrayList<CatagoryFrag> fragments;
 
-    public CatagoryViewPagerAdapter(FragmentManager fm) {
+    public CategoryViewPagerAdapter(FragmentManager fm) {
         super(fm);
         fragments = new ArrayList<>();
         fragments.add(CatagoryFrag.newInstance(CatagoryFrag.Type.APP));

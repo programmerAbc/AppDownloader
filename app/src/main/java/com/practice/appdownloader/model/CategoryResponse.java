@@ -4,7 +4,7 @@ package com.practice.appdownloader.model;
  * Created by gaofeng on 2017-01-23.
  */
 
-public class CatagoryResponse {
+public class CategoryResponse {
     private Data[] data;
 
     public Data[] getData() {

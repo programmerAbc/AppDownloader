@@ -22,9 +22,4 @@ public class NSLinearLayout extends LinearLayout {
     public NSLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
-
-
-
-
 }
