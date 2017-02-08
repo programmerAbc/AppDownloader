@@ -16,7 +16,7 @@ public interface RetrofitService {
             "X-Sdk-Int: 23",
             "X-Sdk-Locale: en-US",
             "X-App-Id: coolmarket",
-            "X-App-Token: ab17e1a31fed6f8775120c44f4368937ca62bcda-c62e-39f3-9f52-e1ee5e1e01c90x58994247",
+            "X-App-Token: 49068fc9fd6f1a4fdaa8d49548dfd327ca62bcda-c62e-39f3-9f52-e1ee5e1e01c90x589ad92e",
             "X-App-Version: 7.3",
             "X-App-Code: 1701135",
             "X-Api-Version: 7"

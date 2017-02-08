@@ -1,5 +1,7 @@
 package com.practice.appdownloader;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -72,7 +74,8 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         RecyclerView tagRv;
         TagRecyclerViewAdapter tagRecyclerViewAdapter;
         ChipsLayoutManager chipsLayoutManager;
-        public CategoryRecyclerViewHolder(View itemView) {
+        CategoryResponse.Data data;
+        public CategoryRecyclerViewHolder(final View itemView) {
             super(itemView);
             logo = (ImageView) itemView.findViewById(R.id.logo);
             catTitle = (TextView) itemView.findViewById(R.id.catTitle);
@@ -86,9 +89,18 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
                     .build();
             tagRv.setLayoutManager(chipsLayoutManager);
             tagRv.setAdapter(tagRecyclerViewAdapter);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(itemView.getContext(),CategoryDetailActivity.class);
+                    intent.putExtra(CategoryResponse.Data.class.getSimpleName(),data);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
 
         public void update(CategoryResponse.Data d) {
+            data=d;
             catTitle.setText(d.getTitle());
             Glide.with(frag)
                     .load(d.getLogo())

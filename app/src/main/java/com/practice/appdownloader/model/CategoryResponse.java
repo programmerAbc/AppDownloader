@@ -1,5 +1,8 @@
 package com.practice.appdownloader.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by gaofeng on 2017-01-23.
  */
@@ -21,7 +24,8 @@ public class CategoryResponse {
     }
 
 
-    public static class Data {
+    public static class Data implements Parcelable {
+
         private String id;
 
         private String logo;
@@ -146,6 +150,57 @@ public class CategoryResponse {
         public String toString() {
             return "ClassPojo [id = " + id + ", logo = " + logo + ", title = " + title + ", keywords = " + keywords + ", dir = " + dir + ", description = " + description + ", apkType = " + apkType + ", displayorder = " + displayorder + ", tagList = " + tagList + ", entityType = " + entityType + ", rowscount = " + rowscount + ", topid = " + topid + "]";
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.id);
+            dest.writeString(this.logo);
+            dest.writeString(this.title);
+            dest.writeString(this.keywords);
+            dest.writeString(this.dir);
+            dest.writeString(this.description);
+            dest.writeString(this.apkType);
+            dest.writeString(this.displayorder);
+            dest.writeStringArray(this.tagList);
+            dest.writeString(this.entityType);
+            dest.writeString(this.rowscount);
+            dest.writeString(this.topid);
+        }
+
+        public Data() {
+        }
+
+        protected Data(Parcel in) {
+            this.id = in.readString();
+            this.logo = in.readString();
+            this.title = in.readString();
+            this.keywords = in.readString();
+            this.dir = in.readString();
+            this.description = in.readString();
+            this.apkType = in.readString();
+            this.displayorder = in.readString();
+            this.tagList = in.createStringArray();
+            this.entityType = in.readString();
+            this.rowscount = in.readString();
+            this.topid = in.readString();
+        }
+
+        public static final Parcelable.Creator<Data> CREATOR = new Parcelable.Creator<Data>() {
+            @Override
+            public Data createFromParcel(Parcel source) {
+                return new Data(source);
+            }
+
+            @Override
+            public Data[] newArray(int size) {
+                return new Data[size];
+            }
+        };
     }
 
 }
