@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.practice.appdownloader.model.CategoryResponse;
 
 import java.util.LinkedList;
@@ -26,8 +27,9 @@ import java.util.List;
 public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.CategoryRecyclerViewHolder> {
     LinkedList<CategoryResponse.Data> data = new LinkedList<>();
     Fragment frag;
-    public CategoryRecyclerViewAdapter(Fragment frag){
-    this.frag=frag;
+
+    public CategoryRecyclerViewAdapter(Fragment frag) {
+        this.frag = frag;
     }
 
     @Override
@@ -75,12 +77,14 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         TagRecyclerViewAdapter tagRecyclerViewAdapter;
         ChipsLayoutManager chipsLayoutManager;
         CategoryResponse.Data data;
+        Target<?> glideTarget = null;
+
         public CategoryRecyclerViewHolder(final View itemView) {
             super(itemView);
             logo = (ImageView) itemView.findViewById(R.id.logo);
             catTitle = (TextView) itemView.findViewById(R.id.catTitle);
             tagRv = (RecyclerView) itemView.findViewById(R.id.tagRv);
-            tagRecyclerViewAdapter=new TagRecyclerViewAdapter();
+            tagRecyclerViewAdapter = new TagRecyclerViewAdapter();
             chipsLayoutManager = ChipsLayoutManager.newBuilder(itemView.getContext())
                     .setScrollingEnabled(true)
                     .setMaxViewsInRow(10)
@@ -92,17 +96,20 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(itemView.getContext(),CategoryDetailActivity.class);
-                    intent.putExtra(CategoryResponse.Data.class.getSimpleName(),data);
+                    Intent intent = new Intent(itemView.getContext(), CategoryDetailActivity.class);
+                    intent.putExtra(CategoryResponse.Data.class.getSimpleName(), data);
                     itemView.getContext().startActivity(intent);
                 }
             });
         }
 
         public void update(CategoryResponse.Data d) {
-            data=d;
+            data = d;
             catTitle.setText(d.getTitle());
-            Glide.with(frag)
+            if (glideTarget != null) {
+                Glide.clear(glideTarget);
+            }
+            glideTarget=Glide.with(frag)
                     .load(d.getLogo())
                     .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_applogo_placeholder)
