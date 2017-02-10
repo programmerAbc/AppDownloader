@@ -10,10 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.practice.appdownloader.model.CategoryDetailResponse;
 
 import java.util.LinkedList;
@@ -26,9 +23,14 @@ import java.util.List;
 public class CategoryDetailRecyclerViewAdapter extends RecyclerView.Adapter<CategoryDetailRecyclerViewAdapter.CategoryDetailRecyclerViewHolder> {
     LinkedList<CategoryDetailResponse.Data> data = new LinkedList<>();
     Fragment frag;
+    RecyclerView recyclerView;
+    View emptyView;
 
-    public CategoryDetailRecyclerViewAdapter(Fragment frag) {
+    public CategoryDetailRecyclerViewAdapter(Fragment frag, RecyclerView recyclerView, View emptyView) {
         this.frag = frag;
+        this.recyclerView = recyclerView;
+        this.emptyView = emptyView;
+        showEmptyViewIfNoData();
     }
 
     @Override
@@ -46,13 +48,33 @@ public class CategoryDetailRecyclerViewAdapter extends RecyclerView.Adapter<Cate
         return data.size();
     }
 
+    public void showEmptyViewIfNoData() {
+        if (getItemCount() == 0) {
+            if (recyclerView.getVisibility() == View.VISIBLE) {
+                recyclerView.setVisibility(View.GONE);
+            }
+            if (emptyView.getVisibility() == View.GONE) {
+                emptyView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (recyclerView.getVisibility() == View.GONE) {
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+            if (emptyView.getVisibility() == View.VISIBLE) {
+                emptyView.setVisibility(View.GONE);
+            }
+        }
+    }
+
     public void add(CategoryDetailResponse.Data d) {
         data.add(d);
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 
     public void addAll(List<CategoryDetailResponse.Data> ds) {
         data.addAll(ds);
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 
@@ -60,11 +82,13 @@ public class CategoryDetailRecyclerViewAdapter extends RecyclerView.Adapter<Cate
         for (CategoryDetailResponse.Data d : ds) {
             data.add(d);
         }
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 
     public void clear() {
         data.clear();
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 

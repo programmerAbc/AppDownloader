@@ -35,6 +35,7 @@ public class CategoryDetailFrag extends Fragment {
     RetrofitService retrofitService;
     RecyclerView mainRv;
     CategoryDetailRecyclerViewAdapter categoryDetailRecyclerViewAdapter;
+    View mainRvEmptyView;
 
     public CategoryDetailFrag() {
     }
@@ -53,9 +54,6 @@ public class CategoryDetailFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
@@ -63,8 +61,9 @@ public class CategoryDetailFrag extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_detail, container, false);
         mainRv = (RecyclerView) view.findViewById(R.id.mainRv);
+        mainRvEmptyView = view.findViewById(R.id.mainRvEmptyView);
         mainRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryDetailRecyclerViewAdapter = new CategoryDetailRecyclerViewAdapter(this);
+        categoryDetailRecyclerViewAdapter = new CategoryDetailRecyclerViewAdapter(this, mainRv, mainRvEmptyView);
         mainRv.setAdapter(categoryDetailRecyclerViewAdapter);
         retrofitService.getAppCategoryDetail(getArguments().getString(URL))
                 .subscribeOn(Schedulers.io())
@@ -83,7 +82,7 @@ public class CategoryDetailFrag extends Fragment {
 
                     @Override
                     public void onNext(CategoryDetailResponse categoryDetailResponse) {
-                        Log.e(TAG, "onNext: " +categoryDetailResponse.getData()[0]);
+                        Log.e(TAG, "onNext: " + categoryDetailResponse.getData()[0]);
                         categoryDetailRecyclerViewAdapter.addAll(categoryDetailResponse.getData());
                     }
                 });

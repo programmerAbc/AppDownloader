@@ -1,11 +1,8 @@
 package com.practice.appdownloader;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +24,32 @@ import java.util.List;
 public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.CategoryRecyclerViewHolder> {
     LinkedList<CategoryResponse.Data> data = new LinkedList<>();
     Fragment frag;
+    RecyclerView recyclerView;
+    View emptyView;
 
-    public CategoryRecyclerViewAdapter(Fragment frag) {
+    public CategoryRecyclerViewAdapter(Fragment frag, RecyclerView recyclerView, View emptyView) {
         this.frag = frag;
+        this.recyclerView = recyclerView;
+        this.emptyView = emptyView;
+        showEmptyViewIfNoData();
+    }
+
+    public void showEmptyViewIfNoData() {
+        if (getItemCount() == 0) {
+            if (recyclerView.getVisibility() == View.VISIBLE) {
+                recyclerView.setVisibility(View.GONE);
+            }
+            if (emptyView.getVisibility() == View.GONE) {
+                emptyView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (recyclerView.getVisibility() == View.GONE) {
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+            if (emptyView.getVisibility() == View.VISIBLE) {
+                emptyView.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -49,11 +69,13 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
 
     public void add(CategoryResponse.Data d) {
         data.add(d);
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 
     public void addAll(List<CategoryResponse.Data> ds) {
         data.addAll(ds);
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 
@@ -61,11 +83,13 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         for (CategoryResponse.Data d : ds) {
             data.add(d);
         }
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 
     public void clear() {
         data.clear();
+        showEmptyViewIfNoData();
         notifyDataSetChanged();
     }
 
@@ -109,7 +133,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             if (glideTarget != null) {
                 Glide.clear(glideTarget);
             }
-            glideTarget=Glide.with(frag)
+            glideTarget = Glide.with(frag)
                     .load(d.getLogo())
                     .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_applogo_placeholder)

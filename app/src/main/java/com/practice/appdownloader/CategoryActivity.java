@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 public class CategoryActivity extends AppCompatActivity {
     ViewPager categoryVp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

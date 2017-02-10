@@ -4,9 +4,18 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
+
     <android.support.v7.widget.RecyclerView
-        android:background="@android:color/darker_gray"
         android:id="@+id/categoryRv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+    <ProgressBar
+        android:id="@+id/categoryRvEmptyView"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
 </LinearLayout>

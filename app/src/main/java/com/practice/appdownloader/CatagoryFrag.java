@@ -59,6 +59,7 @@ public class CatagoryFrag extends Fragment {
     }
 
     RecyclerView categoryRv;
+    View categoryRvEmptyView;
     Retrofit retrofit = null;
     RetrofitService retrofitService = null;
     CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = null;
@@ -84,8 +85,9 @@ public class CatagoryFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_category, container, false);
         categoryRv = (RecyclerView) view.findViewById(R.id.categoryRv);
+        categoryRvEmptyView=view.findViewById(R.id.categoryRvEmptyView);
         categoryRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(this);
+        categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(this,categoryRv,categoryRvEmptyView);
         categoryRv.setAdapter(categoryRecyclerViewAdapter);
         return view;
     }
